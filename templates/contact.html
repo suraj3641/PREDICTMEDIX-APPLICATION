@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Predictmedix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #1d4ed8;
+            --accent: #60a5fa;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .student-card {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .resume-btn {
+            transition: all 0.3s ease;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .resume-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span class="text-xl font-bold">Predictmedix</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="hover:text-blue-200 transition-colors">Home</a>
+                    <a href="/about" class="hover:text-blue-200 transition-colors">About</a>
+                    <a href="/contact" class="font-medium hover:text-blue-200 transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-16">
+        <h1 class="text-4xl font-bold text-center mb-16 section-title">Meet Our Team</h1>
+        
+        <!-- Student Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            <!-- Student 1 -->
+            <div class="student-card">
+                <div class="w-full h-48 bg-gray-200 overflow-hidden">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-1">Sarah Johnson</h3>
+                    <p class="text-blue-600 font-medium mb-3">Data Science</p>
+                    <p class="text-gray-600 text-sm mb-4">Developed ML models and data pipelines for the project</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Python</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Scikit-learn</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Pandas</span>
+                    </div>
+                    <a href="/static/resumes/tusharResume.pdf" class="resume-btn inline-block px-4 py-2 rounded-md font-medium text-sm">
+                        View Resume
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student 2 -->
+            <div class="student-card">
+                <div class="w-full h-48 bg-gray-200 overflow-hidden">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-1">Michael Chen</h3>
+                    <p class="text-blue-600 font-medium mb-3">Full Stack Dev</p>
+                    <p class="text-gray-600 text-sm mb-4">Built web application and API endpoints</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Flask</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">JavaScript</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">HTML/CSS</span>
+                    </div>
+                    <a href="/resumes/michael_chen.pdf" class="resume-btn inline-block px-4 py-2 rounded-md font-medium text-sm">
+                        View Resume
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student 3 -->
+            <div class="student-card">
+                <div class="w-full h-48 bg-gray-200 overflow-hidden">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-1">Emily Rodriguez</h3>
+                    <p class="text-blue-600 font-medium mb-3">UI/UX Design</p>
+                    <p class="text-gray-600 text-sm mb-4">Designed interfaces and user flows</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Figma</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Tailwind</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">UX Research</span>
+                    </div>
+                    <a href="/resumes/emily_rodriguez.pdf" class="resume-btn inline-block px-4 py-2 rounded-md font-medium text-sm">
+                        View Resume
+                    </a>
+                </div>
+            </div>
+
+            <!-- Student 4 -->
+            <div class="student-card">
+                <div class="w-full h-48 bg-gray-200 overflow-hidden">
+                    <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="David Wilson" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-1">David Wilson</h3>
+                    <p class="text-blue-600 font-medium mb-3">Backend Engineer</p>
+                    <p class="text-gray-600 text-sm mb-4">Implemented server infrastructure</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Docker</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">AWS</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">PostgreSQL</span>
+                    </div>
+                    <a href="/resumes/david_wilson.pdf" class="resume-btn inline-block px-4 py-2 rounded-md font-medium text-sm">
+                        View Resume
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Guide -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-20">
+            <div class="md:flex">
+                <div class="md:shrink-0">
+                    <img class="h-48 w-full md:h-full md:w-48 object-cover" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Project Guide">
+                </div>
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold mb-2">Prof. Robert Williams</h2>
+                    <p class="text-blue-600 font-medium mb-4">Project Guide</p>
+                    <p class="text-gray-600 mb-4">Computer Science Department</p>
+                    <p class="text-gray-600">With extensive experience in healthcare technology projects, Prof. Williams guided our team through the development of Predictmedix.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
+            <h2 class="text-2xl font-bold mb-6">Contact Our Team</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700">Email</h3>
+                    <p class="text-gray-600">team@predictmedix.edu</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700">Office Hours</h3>
+                    <p class="text-gray-600">Monday-Friday: 9am-5pm</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700">Location</h3>
+                    <p class="text-gray-600">Computer Science Department<br>University Building, Room 205</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Predictmedix</h3>
+                    <p class="text-gray-400">A college project demonstrating healthcare cost prediction</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>© 2023 Predictmedix - Computer Science Department</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
