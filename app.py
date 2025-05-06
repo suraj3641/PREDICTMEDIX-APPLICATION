@@ -226,17 +226,17 @@ def reset_password(token):
     return redirect(url_for('forgot_password'))
 
 @app.route('/about')
-@login_required
+# @login_required
 def about():
     return render_template('about.html')
 
 @app.route('/contact')
-@login_required
+# @login_required
 def contact():
     return render_template('contact.html')
 
 @app.route('/resumes/<filename>')
-@login_required
+# @login_required
 def download_resume(filename):
     os.makedirs('resumes', exist_ok=True)
     return send_from_directory('resumes', filename, as_attachment=True)
