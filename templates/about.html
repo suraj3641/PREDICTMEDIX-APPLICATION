@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Predictmedix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #1d4ed8;
+            --accent: #60a5fa;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .tech-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .tech-card:hover .tech-details {
+            opacity: 1;
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .student-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .coordinator-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .profile-image {
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+     <!-- Navigation -->
+<nav class="bg-blue-800 text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-3">
+        <div class="flex justify-between items-center">
+            <!-- Logo/Brand -->
+            <div class="flex items-center space-x-3">
+                <svg class="w-8 h-8 transform hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <span class="text-xl font-semibold hover:text-teal-200 transition-colors duration-300">Predictmedix</span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="/" class="hover:text-teal-200 transition-colors duration-300 transform hover:scale-105">Home</a>
+                <a href="/about" class="hover:text-teal-200 transition-colors duration-300 transform hover:scale-105">About</a>
+                <a href="/contact" class="hover:text-teal-200 transition-colors duration-300 transform hover:scale-105">Contact</a>
+                {% if current_user.is_authenticated %}
+                    <span class="text-teal-300">Hello, {{ current_user.name }}</span>
+                    <a href="{{ url_for('logout') }}" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">Signup</a>
+                    <a href="{{ url_for('login') }}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">Login</a>
+                {% endif %}
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-button" class="outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+            <a href="/" class="block hover:text-teal-200 transition-colors duration-300 transform hover:translate-x-2">Home</a>
+            <a href="/about" class="block hover:text-teal-200 transition-colors duration-300 transform hover:translate-x-2">About</a>
+            <a href="/contact" class="block hover:text-teal-200 transition-colors duration-300 transform hover:translate-x-2">Contact</a>
+            {% if current_user.is_authenticated %}
+                <div class="pt-2 border-t border-blue-700">
+                    <span class="block text-teal-300 py-2">Hello, {{ current_user.name }}</span>
+                    <a href="{{ url_for('logout') }}" class="block bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-all duration-300 w-full text-center">Logout</a>
+                </div>
+            {% else %}
+                <div class="pt-2 border-t border-blue-700 space-y-3">
+                    <a href="{{ url_for('signup') }}" class="block bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-all duration-300 w-full text-center">Signup</a>
+                    <a href="{{ url_for('login') }}" class="block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-all duration-300 w-full text-center">Login</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+        
+        // Animate the menu
+        if (!menu.classList.contains('hidden')) {
+            menu.style.opacity = '0';
+            menu.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                menu.style.opacity = '1';
+                menu.style.transform = 'translateY(0)';
+            }, 10);
+        }
+    });
+</script>
+    </nav>
+
+    <!-- Main Content -->
+<div class="container mx-auto px-6 py-16 bg-gradient-to-b from-blue-50 via-white to-blue-100">
+
+    <!-- Technologies Section -->
+    <div class="mb-20 animate-fade-in">
+        <h2 class="text-4xl font-extrabold text-center mb-12 text-blue-800">Technologies We Use</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <!-- Tech Card -->
+            <div class="tech-card bg-white shadow-xl rounded-2xl p-6 hover:scale-105 transition-transform duration-500 border-t-4 border-blue-500">
+                <div class="text-blue-600 mb-4 text-center">
+                    <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-center text-blue-700 mb-3">Python & Flask</h3>
+                <p class="text-gray-600 text-center mb-4">Backend powered by Python with Flask framework</p>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold text-center mb-2 text-blue-800">Implementation Details</h4>
+                    <p class="text-sm text-gray-700">Built a RESTful API using Flask to process and return ML predictions.</p>
+                </div>
+            </div>
+
+            <!-- Tech Card -->
+            <div class="tech-card bg-white shadow-xl rounded-2xl p-6 hover:scale-105 transition-transform duration-500 border-t-4 border-green-500">
+                <div class="text-green-600 mb-4 text-center">
+                    <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-center text-green-700 mb-3">Machine Learning</h3>
+                <p class="text-gray-600 text-center mb-4">Advanced regression models for predictions</p>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold text-center mb-2 text-green-800">Implementation Details</h4>
+                    <p class="text-sm text-gray-700">Used Scikit-learn with features like age, BMI, smoking status to predict medical costs.</p>
+                </div>
+            </div>
+
+            <!-- Tech Card -->
+            <div class="tech-card bg-white shadow-xl rounded-2xl p-6 hover:scale-105 transition-transform duration-500 border-t-4 border-purple-500">
+                <div class="text-purple-600 mb-4 text-center">
+                    <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-center text-purple-700 mb-3">Tailwind CSS</h3>
+                <p class="text-gray-600 text-center mb-4">Modern CSS framework for responsive design</p>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold text-center mb-2 text-purple-800">Implementation Details</h4>
+                    <p class="text-sm text-gray-700">Responsive UI with utility-first Tailwind classes and animations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Guide -->
+    <div class="max-w-4xl mx-auto mb-20 bg-white p-10 rounded-xl shadow-lg animate-fade-in">
+        <h2 class="text-4xl font-bold text-center mb-10 text-blue-800">Project Guide</h2>
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-300 shadow-md">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Project Guide" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center md:text-left">
+                <h3 class="text-2xl font-bold text-blue-700">Prof. Robert Williams</h3>
+                <p class="text-blue-500 font-medium mb-2">Computer Science Department</p>
+                <p class="text-gray-700 mb-3">Expert in healthcare tech, mentored us through the Predictmedix project.</p>
+                <p class="italic text-gray-600">"This project excellently applies ML to real-world healthcare challenges."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="mb-20 animate-fade-in">
+        <h2 class="text-4xl font-bold text-center mb-12 text-blue-800">Our Team</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Team Member Card -->
+            <div class="team-card bg-white rounded-2xl shadow-md hover:shadow-xl p-4 transition-all duration-500 text-center">
+                <span class="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full inline-block mb-3">Student</span>
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-full h-48 object-cover rounded-lg mb-4" />
+                <h3 class="text-xl font-semibold">Sarah Johnson</h3>
+                <p class="text-blue-600 text-sm mb-2">Data Science</p>
+                <p class="text-gray-600 text-sm">Developed ML models and pipelines</p>
+            </div>
+
+            <div class="team-card bg-white rounded-2xl shadow-md hover:shadow-xl p-4 transition-all duration-500 text-center">
+                <span class="text-xs bg-green-100 text-green-600 px-3 py-1 rounded-full inline-block mb-3">Student</span>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-48 object-cover rounded-lg mb-4" />
+                <h3 class="text-xl font-semibold">Michael Chen</h3>
+                <p class="text-green-600 text-sm mb-2">Full Stack Dev</p>
+                <p class="text-gray-600 text-sm">Built frontend and API endpoints</p>
+            </div>
+
+            <div class="team-card bg-white rounded-2xl shadow-md hover:shadow-xl p-4 transition-all duration-500 text-center">
+                <span class="text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-full inline-block mb-3">Student</span>
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-full h-48 object-cover rounded-lg mb-4" />
+                <h3 class="text-xl font-semibold">Emily Rodriguez</h3>
+                <p class="text-purple-600 text-sm mb-2">UI/UX Design</p>
+                <p class="text-gray-600 text-sm">Crafted engaging interfaces</p>
+            </div>
+
+            <div class="team-card bg-white rounded-2xl shadow-md hover:shadow-xl p-4 transition-all duration-500 text-center">
+                <span class="text-xs bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full inline-block mb-3">Student</span>
+                <img src="https://randomuser.me/api/portraits/men/65.jpg" class="w-full h-48 object-cover rounded-lg mb-4" />
+                <h3 class="text-xl font-semibold">David Wilson</h3>
+                <p class="text-yellow-600 text-sm mb-2">Backend Engineer</p>
+                <p class="text-gray-600 text-sm">Implemented server logic</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+   <!-- Footer with Animation -->
+<footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="animate-fade-in">
+                <h3 class="text-xl font-bold mb-4">Predictmedix</h3>
+                <p class="text-gray-400">Making healthcare cost prediction accessible to everyone through AI technology.</p>
+            </div>
+            <div class="animate-fade-in delay-100">
+                <h4 class="font-semibold mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+                    <li><a href="/about" class="text-gray-400 hover:text-white transition">About</a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                </ul>
+            </div>
+            <div class="animate-fade-in delay-200">
+                <h4 class="font-semibold mb-4">Legal</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="animate-fade-in delay-300">
+                <h4 class="font-semibold mb-4">Connect</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 animate-fade-in">
+            &copy; 2025 Predictmedix. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
