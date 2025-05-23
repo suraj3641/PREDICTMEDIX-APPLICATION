@@ -87,6 +87,7 @@ plotly==6.0.1
 prometheus_client==0.21.1
 prompt_toolkit==3.0.50
 psutil==7.0.0
+PyJWT==2.8.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pycparser==2.22
