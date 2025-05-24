@@ -19,13 +19,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key')
 
 # MongoDB Configuration
-import os
-from pymongo import MongoClient
-
-mongo_uri = os.environ.get("MONGO_URI")
-client = MongoClient(mongo_uri)
-# db = client["myDatabase"]
-# client = MongoClient(os.getenv('MONGO_URI'))
+client = MongoClient(os.getenv('MONGO_URI'))
 db = client['insurance_auth']
 users_collection = db['users']
 tokens_collection = db['tokens']
