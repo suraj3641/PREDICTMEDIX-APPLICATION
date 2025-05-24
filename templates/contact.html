@@ -6,6 +6,9 @@
     <title>Contact | Predictmedix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -144,108 +147,88 @@
     });
 </script>
 
-<!-- Main Content -->
-<div class="container mx-auto px-6 py-16 bg-gradient-to-br from-blue-50 via-white to-blue-100">
-    <h1 class="text-5xl font-extrabold text-center text-gray-800 mb-16 section-title" data-aos="fade-down">Meet Our Team</h1>
+<div class="container mx-auto px-4 py-16 bg-gradient-to-br from-blue-100 via-white to-blue-200">
+  <h1 class="text-5xl font-extrabold text-center text-gray-800 mb-16" data-aos="fade-down">Meet Our Team</h1>
 
-    <!-- Student Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
-        <!-- Reusable Card Component -->
-        <!-- Student 1 -->
-        <div class="student-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-4 border-transparent hover:border-blue-300" data-aos="zoom-in">
-            <div class="w-full h-48 overflow-hidden rounded-t-xl">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-1 text-gray-800">Sarah Johnson</h3>
-                <p class="text-blue-600 font-semibold mb-2">Data Scientist</p>
-                <p class="text-gray-600 text-sm mb-4">Developed ML models and data pipelines for the project.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Python</span>
-                    <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Scikit-learn</span>
-                    <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Pandas</span>
-                </div>
-                <a href="/static/resumes/tusharResume.pdf" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-semibold">
-                    View Resume
-                </a>
-            </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
+    <!-- Template for each member -->
+    <!-- Repeat this block for each team member -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl" data-aos="fade-up">
+      <img src="https://media.licdn.com/dms/image/v2/D4D03AQG48g5l0_eSfw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1694769849908?e=1749686400&v=beta&t=bhz-NInpKIuisHIdlB1EQ0k0wLuUImsgaT9GEVLDG3k" class="w-full h-48 object-cover rounded-lg mb-4">
+      <div class="p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-1">Tushar Saxena</h3>
+        <p class="text-blue-600 font-medium mb-3">Full Stack Developer</p>
+        <div class="space-y-2 text-sm text-gray-600">
+          <p><a href="https://linkedin.com/in/tushar-saxena1304" class="text-blue-500 hover:underline" target="_blank">LinkedIn</a></p>
+          <p>📞 +91 82993 59698</p>
+          <p>📧 <a href="mailto:tsaxena360@gmail.com" class="hover:underline">tsaxena360@gmail.com</a></p>
         </div>
-
-        <!-- Student 2 -->
-        <div class="student-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-4 border-transparent hover:border-purple-300" data-aos="zoom-in">
-            <div class="w-full h-48 overflow-hidden rounded-t-xl">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-1 text-gray-800">Michael Chen</h3>
-                <p class="text-purple-600 font-semibold mb-2">Full Stack Developer</p>
-                <p class="text-gray-600 text-sm mb-4">Built the web application and RESTful API services.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">Flask</span>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">JavaScript</span>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">HTML/CSS</span>
-                </div>
-                <a href="/resumes/michael_chen.pdf" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm font-semibold">
-                    View Resume
-                </a>
-            </div>
-        </div>
-
-        <!-- Student 3 -->
-        <div class="student-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-4 border-transparent hover:border-pink-300" data-aos="zoom-in">
-            <div class="w-full h-48 overflow-hidden rounded-t-xl">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-1 text-gray-800">Emily Rodriguez</h3>
-                <p class="text-pink-600 font-semibold mb-2">UI/UX Designer</p>
-                <p class="text-gray-600 text-sm mb-4">Designed intuitive user flows and interfaces.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-pink-100 text-pink-800 text-xs px-3 py-1 rounded-full">Figma</span>
-                    <span class="bg-pink-100 text-pink-800 text-xs px-3 py-1 rounded-full">Tailwind</span>
-                    <span class="bg-pink-100 text-pink-800 text-xs px-3 py-1 rounded-full">UX Research</span>
-                </div>
-                <a href="/resumes/emily_rodriguez.pdf" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 text-sm font-semibold">
-                    View Resume
-                </a>
-            </div>
-        </div>
-
-        <!-- Student 4 -->
-        <div class="student-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-4 border-transparent hover:border-green-300" data-aos="zoom-in">
-            <div class="w-full h-48 overflow-hidden rounded-t-xl">
-                <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="David Wilson" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-                <h3 class="text-xl font-bold mb-1 text-gray-800">David Wilson</h3>
-                <p class="text-green-600 font-semibold mb-2">Backend Engineer</p>
-                <p class="text-gray-600 text-sm mb-4">Handled cloud deployment and database setup.</p>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Docker</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">AWS</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">PostgreSQL</span>
-                </div>
-                <a href="/resumes/david_wilson.pdf" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-semibold">
-                    View Resume
-                </a>
-            </div>
-        </div>
+        <a href="/static/resumes/TusharResume.pdf" class="mt-4 block bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition">View Resume</a>
+      </div>
     </div>
 
-    <!-- Project Guide -->
-    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden mb-20" data-aos="fade-up">
-        <div class="md:flex">
-            <div class="md:shrink-0">
-                <img class="h-48 w-full md:h-full md:w-48 object-cover" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Project Guide">
-            </div>
-            <div class="p-8">
-                <h2 class="text-2xl font-bold mb-2 text-gray-800">Prof. Robert Williams</h2>
-                <p class="text-blue-600 font-medium mb-1">Project Guide</p>
-                <p class="text-gray-600 mb-2">Computer Science Department</p>
-                <p class="text-gray-600">Prof. Williams guided our technical and research direction through Predictmedix development.</p>
-            </div>
+    <!-- Repeat above for Sarvesh, Suraj, Atul -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl" data-aos="fade-up">
+      <img src="/static/Photos/SurajPic.jpg" alt="Suraj Maurya" class="w-full h-56 object-cover">
+      <div class="p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-1">Suraj Maurya</h3>
+        <p class="text-blue-600 font-medium mb-3">Full Stack Developer</p>
+        <div class="space-y-2 text-sm text-gray-600">
+          <p><a href="https://www.linkedin.com/in/suraj-maurya-bb4130256/" class="text-blue-500 hover:underline" target="_blank">LinkedIn</a></p>
+          <p>📞 +91 76178 84304</p>
+          <p>📧 <a href="mailto:mauryasuraj364@gmail.com" class="hover:underline">mauryasuraj364@gmail.com</a></p>
         </div>
+        <a href="/static/resumes/Suraj_Resume.pdf" class="mt-4 block bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition">View Resume</a>
+      </div>
     </div>
+
+   
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl" data-aos="fade-up">
+      <img src="https://media.licdn.com/dms/image/v2/D5603AQEjrJ1KcSZpRQ/profile-displayphoto-shrink_800_800/B56ZVqdLboGQAc-/0/1741247789260?e=1749686400&v=beta&t=FmiSiIgJEGncCRlPLtkDGdpMxDvmMWGpuILN8ZRcydg"  class="w-full h-48 object-cover rounded-lg mb-4">
+      <div class="p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-1">Atul Kumar</h3>
+        <p class="text-blue-600 font-medium mb-3">Machine Learning Engineer</p>
+        <div class="space-y-2 text-sm text-gray-600">
+          <p><a href="https://linkedin.com/in/atul-kumar-bb36232b4" class="text-blue-500 hover:underline" target="_blank">LinkedIn</a></p>
+          <p>📞 +91 92506 11775</p>
+          <p>📧 <a href="mailto:katul774972@gmail.com" class="hover:underline">katul774972@gmail.com</a></p>
+        </div>
+        <a href="/static/resumes/Atul Kumar resume.pdf" class="mt-4 block bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition">View Resume</a>
+      </div>
+    </div>
+
+     <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl" data-aos="fade-up">
+      <img src="/static/Photos/sarveshPic.jpg" alt="Sarvesh Mishra" class="w-full h-56 object-cover">
+      <div class="p-6">
+        <h3 class="text-xl font-semibold text-gray-800 mb-1">Sarvesh Mishra</h3>
+        <p class="text-blue-600 font-medium mb-3">Research And Data</p>
+        <div class="space-y-2 text-sm text-gray-600">
+          <p><a href="https://www.linkedin.com/in/sarvesh-mishra-a58447265" class="text-blue-500 hover:underline" target="_blank">LinkedIn</a></p>
+          <p>📞 +91 94517 80915</p>
+          <p>📧 <a href="mailto:sarveshmishraoffi@gmail.com" class="hover:underline">sarveshmishraoffi@gmail.com</a></p>
+        </div>
+        <a href="/static/resumes/Sarvesh_Resume.pdf" class="mt-4 block bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition">View Resume</a>
+      </div>
+    </div>
+
+  </div>
+
+
+  
+
+  <!-- Project Guide Section -->
+  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row items-center" data-aos="zoom-in">
+    <img src="/static/Photos/Shobitsir.jpg" alt="Project Guide" class="w-full md:w-48 h-48 object-cover">
+    <div class="p-6">
+      <div class="uppercase tracking-wide text-sm text-indigo-600 font-semibold">Project Guide</div>
+      <h2 class="text-lg font-bold text-gray-800 mt-1">Assistant prof. Shobhit mani tiwari</h2>
+       <p class="text-gray-600 mb-4">Computer Science Department</p>
+      <p class="mt-2 text-gray-600">With extensive experience in healthcare technology projects, Prof.  guided our team through the development of Predictmedix.</p>
+    </div>
+  </div>
+</div>
+
 
     <!-- Contact Information -->
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8" data-aos="fade-up">
@@ -261,7 +244,7 @@
             </div>
             <div>
                 <h3 class="text-lg font-semibold text-gray-700">Location</h3>
-                <p class="text-gray-600">Computer Science Department<br>University Building, Room 205</p>
+                <p class="text-gray-600">Computer Science Department<br>LU New Campus Rd, Type IV, Sultanpur Village, Jankipuram Extension, Lucknow, Uttar Pradesh 226021</p>
             </div>
         </div>
     </div>
@@ -311,7 +294,7 @@
     </div>
 </footer>
 
-
+<script>AOS.init();</script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init();
