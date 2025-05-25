@@ -12,6 +12,10 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from flask_mail import Message
+from flask import Flask, render_template, request, send_file
+from xhtml2pdf import pisa
+from flask import make_response
+import io
 
 
 load_dotenv()
@@ -167,6 +171,8 @@ def logout():
     # flash('logout successfully','success')
     return redirect(url_for('home'))
 
+
+
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -186,6 +192,8 @@ def forgot_password():
         flash('If your email exists, a reset link has been sent.', 'info')
         return redirect(url_for('login'))
     return render_template('forgot_password.html')
+
+
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
@@ -225,6 +233,119 @@ def reset_password(token):
         flash('Invalid reset link.', 'danger')
     return redirect(url_for('forgot_password'))
 
+
+
+
+
+def generate_health_tips(data):
+    tips = []
+    # BMI Tips
+    if data['bmi'] < 18.5:
+        tips.append("आपका BMI कम है। पोषक आहार लीजिए और वजन बढ़ाइए।")
+    elif 18.5 <= data['bmi'] < 25:
+        tips.append("आपका BMI सामान्य है। इसी तरह स्वस्थ रहें।")
+    elif 25 <= data['bmi'] < 30:
+        tips.append("आपका BMI थोड़ा ज्यादा है। हल्का व्यायाम शुरू करें।")
+        tips.append("मीठे और तले-भुने भोजन से बचें।")
+    else:
+        tips.append("आपका BMI बहुत ज्यादा है। वजन कम करने की कोशिश करें।")
+        tips.append("रोजाना 30 मिनट वॉक या योग अपनाएं।")
+
+    # Smoking Tips
+    if data['smoker'] == 'yes':
+        tips.append("धूम्रपान छोड़ें, इससे आपकी सेहत और बीमा खर्च दोनों सुधर सकते हैं।")
+        tips.append("निकोटीन गम या परामर्श से मदद लें।")
+    else:
+        tips.append("आप धूम्रपान नहीं करते, यह बहुत अच्छी बात है!")
+
+    # Age Tips
+    if data['age'] >= 45:
+        tips.append("इस उम्र में नियमित चेकअप जरूरी है।")
+    elif data['age'] < 18:
+        tips.append("आप जवान हैं, संतुलित आहार और क्रियाकलापी गतिविधियां जरूरी हैं।")
+
+    # Gender Tips
+    if data['sex'] == 'female':
+        tips.append("महिलाओं के लिए कैल्शियम और आयरन जरूरी है।")
+    elif data['sex'] == 'male':
+        tips.append("पुरुषों को दिल की सेहत का ख्याल रखना चाहिए।")
+
+    # Children Tips
+    if data['children'] > 2:
+        tips.append(f"आपके {data['children']} बच्चे हैं। परिवार की सेहत का ध्यान रखें।")
+
+    # Region Tips
+    region_tips = {
+        'northeast': "पूर्वोत्तर क्षेत्र में मौसमी सब्जियाँ और नियमित वॉक लाभकारी हैं।",
+        'northwest': "उत्तरपश्चिम में गर्मियों में पानी की मात्रा बढ़ाएं।",
+        'southeast': "दक्षिण-पूर्व में अधिक नमीयुक्त मौसम से बचने की कोशिश करें।",
+        'southwest': "दक्षिण-पश्चिम में धूप से बचाव के उपाय करें।"
+    }
+    tips.append(region_tips.get(data['region'], ""))
+    return tips
+
+
+@app.route('/predict', methods=['POST'])
+@login_required
+def predict():
+    try:
+        if not model:
+            return render_template('index.html', prediction_text="Model not loaded. Contact admin.")
+
+        form_data = {
+            'name': current_user.name,
+            'age': int(request.form['age']),
+            'sex': request.form['sex'],
+            'bmi': float(request.form['bmi']),
+            'children': int(request.form['children']),
+            'smoker': request.form['smoker'],
+            'region': request.form['region']
+        }
+
+        model_data = {
+            'age': form_data['age'],
+            'sex': 1 if form_data['sex'] == 'male' else 0,
+            'bmi': form_data['bmi'],
+            'children': form_data['children'],
+            'smoker': 1 if form_data['smoker'] == 'yes' else 0,
+            'region': {'northwest': 0, 'northeast': 1, 'southeast': 2, 'southwest': 3}[form_data['region']]
+        }
+
+        df = pd.DataFrame([model_data])
+        prediction = model.predict(df)[0]
+        form_data['cost'] = f"{prediction:,.2f}"
+
+        # Generate health tips
+        form_data['health_tips'] = generate_health_tips(form_data)
+      
+
+        return render_template('report.html', **form_data)
+
+    except Exception as e:
+        return render_template('index.html', prediction_text=f'Error: {str(e)}')
+
+
+
+@app.route('/generate_pdf', methods=['POST'])
+def generate_pdf():
+    try:
+        html = render_template('report.html', **request.form)
+        pdf = io.BytesIO()
+        pisa_status = pisa.CreatePDF(html, dest=pdf)
+
+        if pisa_status.err:
+            return "PDF Generation Error", 500
+
+        pdf.seek(0)
+        return send_file(pdf, download_name='medical_report.pdf', as_attachment=True)
+
+    except Exception as e:
+        return f"PDF Generation Failed: {str(e)}", 500
+
+
+
+
+
 @app.route('/about')
 # @login_required
 def about():
@@ -241,28 +362,6 @@ def download_resume(filename):
     os.makedirs('resumes', exist_ok=True)
     return send_from_directory('resumes', filename, as_attachment=True)
 
-@app.route('/predict', methods=['POST'])
-@login_required
-def predict():
-    try:
-        if not model:
-            return render_template('index.html', prediction_text="Model not loaded. Contact admin.")
-
-        data = {
-            'age': int(request.form['age']),
-            'sex': 1 if request.form['sex'] == 'male' else 0,
-            'bmi': float(request.form['bmi']),
-            'children': int(request.form['children']),
-            'smoker': 1 if request.form['smoker'] == 'yes' else 0,
-            'region': {'northwest': 0, 'northeast': 1, 'southeast': 2, 'southwest': 3}[request.form['region']]
-        }
-
-        df = pd.DataFrame([data])
-        prediction = model.predict(df)[0]
-        return render_template('index.html', prediction_text=f'Predicted Insurance Charges: ${prediction:,.2f}')
-
-    except Exception as e:
-        return render_template('index.html', prediction_text=f'Error: {str(e)}')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=True)

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Medical Cost Report</title>
+    <style>
+        /* Set page size and margins for PDF output */
+        @page {
+            size: A4;
+            margin: 30px;
+        }
+        
+        /* Base styling for screen */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .report-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .value {
+            color: #555;
+            padding-left: 10px;
+        }
+
+        .cost {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hide interactive elements when printing (PDF conversion) */
+        @media print {
+            button, iframe {
+                display: none !important;
+            }
+            /* Optionally remove background or shadow for cleaner PDF */
+            body {
+                background-color: #fff;
+            }
+            .report-container {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h1>Medical Insurance Prediction Report</h1>
+
+        <div class="info">
+            <span class="label">Name</span>
+            <div class="value">{{ name }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Age</span>
+            <div class="value">{{ age }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Gender</span>
+            <div class="value">{{ sex }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">BMI</span>
+            <div class="value">{{ bmi }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Children</span>
+            <div class="value">{{ children }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Smoker</span>
+            <div class="value">{{ smoker }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Region</span>
+            <div class="value">{{ region }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Predicted Cost</span>
+            <div class="cost">${{ cost }}</div>
+        </div>
+<div class="info">
+    <span class="label">Health Tips</span>
+    <ul class="value">
+        {% for tip in health_tips %}
+            <li>{{ tip }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+        <!-- Hidden iframe used for PDF download -->
+
+
+        <!-- Button to trigger PDF download and redirect -->
+        <button onclick="downloadAndRedirect()">📄 Download PDF Report</button>
+    </div>
+
+    <script>
+        function downloadAndRedirect() {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/generate_pdf';
+           
+
+            const fields = {
+                name: "{{ name }}",
+                age: "{{ age }}",
+                sex: "{{ sex }}",
+                bmi: "{{ bmi }}",
+                children: "{{ children }}",
+                smoker: "{{ smoker }}",
+                region: "{{ region }}",
+                cost: "{{ cost }}"
+            };
+
+            for (const key in fields) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+
+            // After 3 seconds redirect to the home page
+            setTimeout(function() {
+                window.location.href = "/";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
