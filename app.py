@@ -239,50 +239,68 @@ def reset_password(token):
 
 def generate_health_tips(data):
     tips = []
+
     # BMI Tips
     if data['bmi'] < 18.5:
-        tips.append("आपका BMI कम है। पोषक आहार लीजिए और वजन बढ़ाइए।")
+        tips.append("आपका BMI कम है। पोषक आहार लीजिए और वजन बढ़ाइए। (Your BMI is low. Eat nutritious food and gain weight.)")
     elif 18.5 <= data['bmi'] < 25:
-        tips.append("आपका BMI सामान्य है। इसी तरह स्वस्थ रहें।")
+        tips.append("आपका BMI सामान्य है। इसी तरह स्वस्थ रहें। (Your BMI is normal. Keep maintaining your good health.)")
     elif 25 <= data['bmi'] < 30:
-        tips.append("आपका BMI थोड़ा ज्यादा है। हल्का व्यायाम शुरू करें।")
-        tips.append("मीठे और तले-भुने भोजन से बचें।")
+        tips.append("आपका BMI थोड़ा ज्यादा है। हल्का व्यायाम शुरू करें। (Your BMI is slightly high. Start light exercise.)")
+        tips.append("मीठे और तले-भुने भोजन से बचें। (Avoid sugary and fried foods.)")
     else:
-        tips.append("आपका BMI बहुत ज्यादा है। वजन कम करने की कोशिश करें।")
-        tips.append("रोजाना 30 मिनट वॉक या योग अपनाएं।")
+        tips.append("आपका BMI बहुत ज्यादा है। वजन कम करने की कोशिश करें। (Your BMI is very high. Try to lose weight.)")
+        tips.append("रोजाना 30 मिनट वॉक या योग अपनाएं। (Do a 30-minute walk or yoga daily.)")
 
     # Smoking Tips
     if data['smoker'] == 'yes':
-        tips.append("धूम्रपान छोड़ें, इससे आपकी सेहत और बीमा खर्च दोनों सुधर सकते हैं।")
-        tips.append("निकोटीन गम या परामर्श से मदद लें।")
+        tips.append("धूम्रपान छोड़ें, इससे आपकी सेहत और बीमा खर्च दोनों सुधर सकते हैं। (Quit smoking to improve your health and reduce insurance costs.)")
+        tips.append("निकोटीन गम या परामर्श से मदद लें। (Seek help through nicotine gum or counseling.)")
     else:
-        tips.append("आप धूम्रपान नहीं करते, यह बहुत अच्छी बात है!")
+        tips.append("आप धूम्रपान नहीं करते, यह बहुत अच्छी बात है! (It's great that you do not smoke!)")
 
     # Age Tips
     if data['age'] >= 45:
-        tips.append("इस उम्र में नियमित चेकअप जरूरी है।")
+        tips.append("इस उम्र में नियमित चेकअप जरूरी है। (At this age, regular health checkups are essential.)")
+        tips.append("दिल की सेहत और रक्तचाप पर नजर रखें। (Monitor your heart health and blood pressure.)")
     elif data['age'] < 18:
-        tips.append("आप जवान हैं, संतुलित आहार और क्रियाकलापी गतिविधियां जरूरी हैं।")
+        tips.append("आप जवान हैं, संतुलित आहार और क्रियाकलापी गतिविधियां जरूरी हैं। (You are young; balanced diet and active lifestyle are important.)")
+        tips.append("खेल-कूद और पढ़ाई में संतुलन बनाएं। (Balance sports and academics.)")
 
     # Gender Tips
     if data['sex'] == 'female':
-        tips.append("महिलाओं के लिए कैल्शियम और आयरन जरूरी है।")
+        tips.append("महिलाओं के लिए कैल्शियम और आयरन जरूरी है। (Calcium and iron are important for women.)")
+        tips.append("हर महीने स्वास्थ्य पर ध्यान दें। (Pay attention to your health each month.)")
     elif data['sex'] == 'male':
-        tips.append("पुरुषों को दिल की सेहत का ख्याल रखना चाहिए।")
+        tips.append("पुरुषों को दिल की सेहत का ख्याल रखना चाहिए। (Men should take care of heart health.)")
+        tips.append("तनाव कम करने की कोशिश करें। (Try to reduce stress.)")
 
     # Children Tips
     if data['children'] > 2:
-        tips.append(f"आपके {data['children']} बच्चे हैं। परिवार की सेहत का ध्यान रखें।")
+        tips.append(f"आपके {data['children']} बच्चे हैं। परिवार की सेहत का ध्यान रखें। (You have {data['children']} children. Take care of your family's health.)")
+        tips.append("बच्चों को टीकाकरण और संतुलित आहार जरूर दें। (Ensure your children receive vaccinations and a balanced diet.)")
 
     # Region Tips
     region_tips = {
-        'northeast': "पूर्वोत्तर क्षेत्र में मौसमी सब्जियाँ और नियमित वॉक लाभकारी हैं।",
-        'northwest': "उत्तरपश्चिम में गर्मियों में पानी की मात्रा बढ़ाएं।",
-        'southeast': "दक्षिण-पूर्व में अधिक नमीयुक्त मौसम से बचने की कोशिश करें।",
-        'southwest': "दक्षिण-पश्चिम में धूप से बचाव के उपाय करें।"
+        'northeast': "पूर्वोत्तर क्षेत्र में मौसमी सब्जियाँ और नियमित वॉक लाभकारी हैं। (In the northeast, seasonal vegetables and regular walks are beneficial.)",
+        'northwest': "उत्तरपश्चिम में गर्मियों में पानी की मात्रा बढ़ाएं। (In the northwest, increase water intake during summers.)",
+        'southeast': "दक्षिण-पूर्व में अधिक नमीयुक्त मौसम से बचने की कोशिश करें। (In the southeast, try to avoid high humidity.)",
+        'southwest': "दक्षिण-पश्चिम में धूप से बचाव के उपाय करें। (In the southwest, take precautions against sun exposure.)"
     }
-    tips.append(region_tips.get(data['region'], ""))
+    region_tip = region_tips.get(data['region'], "")
+    if region_tip:
+        tips.append(region_tip)
+
+    # Additional General Health Tips
+    tips.append("रोजाना कम से कम 7-8 घंटे की नींद लें। (Get at least 7-8 hours of sleep every day.)")
+    tips.append("हर दिन 8-10 गिलास पानी पिएं। (Drink 8–10 glasses of water daily.)")
+    tips.append("हर दिन कुछ समय धूप में बिताएं ताकि विटामिन D मिले। (Spend some time in sunlight for Vitamin D.)")
+    tips.append("तनाव से बचें, ध्यान या योग अपनाएं। (Avoid stress, practice meditation or yoga.)")
+    tips.append("अपने खान-पान में फल, सब्ज़ियाँ और फाइबर शामिल करें। (Include fruits, vegetables, and fiber in your diet.)")
+
     return tips
+
+
 
 
 @app.route('/predict', methods=['POST'])
@@ -317,10 +335,7 @@ def predict():
 
         # Generate health tips
         form_data['health_tips'] = generate_health_tips(form_data)
-      
-
         return render_template('report.html', **form_data)
-
     except Exception as e:
         return render_template('index.html', prediction_text=f'Error: {str(e)}')
 
@@ -329,7 +344,7 @@ def predict():
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
     try:
-        html = render_template('report.html', **request.form)
+        html = render_template('report.html', **request.form)   
         pdf = io.BytesIO()
         pisa_status = pisa.CreatePDF(html, dest=pdf)
 
@@ -341,6 +356,7 @@ def generate_pdf():
 
     except Exception as e:
         return f"PDF Generation Failed: {str(e)}", 500
+
 
 
 
