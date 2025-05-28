@@ -16,6 +16,7 @@ from flask import Flask, render_template, request, send_file
 from xhtml2pdf import pisa
 from flask import make_response
 import io
+import shap
 
 
 load_dotenv()
@@ -90,11 +91,17 @@ def send_reset_email(email, token):
 def validate_mobile_number(number):
     return re.match(r'^[6-9]\d{9}$', number)
 
-# Routes
+
+
+
+# Routes ============>
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# signup Routes========>
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated: 
@@ -141,6 +148,10 @@ def signup():
 
     return render_template('signup.html')
 
+
+
+
+#  login Routes============>
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     
@@ -164,6 +175,11 @@ def login():
 
     return render_template('login.html')
 
+
+
+
+
+# logout Routes
 @app.route('/logout')
 @login_required
 def logout():
@@ -172,7 +188,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-
+# forgot-password==========>
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -195,6 +211,8 @@ def forgot_password():
 
 
 
+
+# reset-password======>
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     try:
@@ -302,14 +320,14 @@ def generate_health_tips(data):
 
 
 
-
 @app.route('/predict', methods=['POST'])
 @login_required
 def predict():
     try:
-        if not model:
+        if model is None:
             return render_template('index.html', prediction_text="Model not loaded. Contact admin.")
 
+        # Extract form data
         form_data = {
             'name': current_user.name,
             'age': int(request.form['age']),
@@ -320,6 +338,7 @@ def predict():
             'region': request.form['region']
         }
 
+        # Prepare model input for prediction
         model_data = {
             'age': form_data['age'],
             'sex': 1 if form_data['sex'] == 'male' else 0,
@@ -329,15 +348,64 @@ def predict():
             'region': {'northwest': 0, 'northeast': 1, 'southeast': 2, 'southwest': 3}[form_data['region']]
         }
 
+        # Create DataFrame and predict
         df = pd.DataFrame([model_data])
         prediction = model.predict(df)[0]
         form_data['cost'] = f"{prediction:,.2f}"
 
+        # Explain prediction if model has coefficients (i.e., linear model)
+        try:
+            explanations = explain_prediction(model, model_data)
+        except Exception as e:
+            explanations = [f"AI खर्च का विश्लेषण नहीं कर सका (AI could not analyze the expense): {e}"]
+
+        form_data['explanations'] = explanations
+
         # Generate health tips
         form_data['health_tips'] = generate_health_tips(form_data)
+
         return render_template('report.html', **form_data)
+
     except Exception as e:
         return render_template('index.html', prediction_text=f'Error: {str(e)}')
+
+
+
+# How AI interpreted this expense
+def explain_prediction(model, input_data):
+    import shap
+    import pandas as pd
+
+    try:
+        input_df = pd.DataFrame([input_data])
+
+        # Use TreeExplainer for tree-based models
+        explainer = shap.TreeExplainer(model)
+        shap_values = explainer.shap_values(input_df)
+
+        feature_labels = {
+            'age': 'उम्र का असर (Effect of Age)',
+            'sex': 'लिंग का असर (Effect of Gender)',
+            'bmi': 'BMI का असर (Effect of BMI)',
+            'children': 'बच्चों की संख्या का असर (Effect of Number of Children)',
+            'smoker': 'धूम्रपान स्थिति का असर (Effect of Smoking Status)',
+            'region': 'क्षेत्र का असर (Effect of Region)'
+        }
+
+        explanations = []
+        for i, feature in enumerate(input_df.columns):
+            label = feature_labels.get(feature, feature)
+            value = shap_values[0][i]
+            explanations.append(f"{label}: {round(value, 2)} रुपये (INR)")
+
+        return explanations
+
+    except Exception as e:
+        return [f"AI खर्च का विश्लेषण नहीं कर सका (AI could not analyze the expense): {e}"]
+
+
+
+
 
 
 
@@ -356,6 +424,16 @@ def generate_pdf():
 
     except Exception as e:
         return f"PDF Generation Failed: {str(e)}", 500
+
+
+
+
+
+
+
+
+
+
 
 
 

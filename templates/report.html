@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
     <meta charset="utf-8">
     <title>Medical Cost Report</title>
+    <!-- Unicode-safe font supporting Hindi and English -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <style>
-        /* Set page size and margins for PDF output */
         @page {
             size: A4;
             margin: 30px;
         }
-        
-        /* Base styling for screen */
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans', sans-serif;
             background-color: #f1f1f1;
             margin: 0;
             padding: 40px;
@@ -75,12 +75,10 @@
             background-color: #0056b3;
         }
 
-        /* Hide interactive elements when printing (PDF conversion) */
         @media print {
             button, iframe {
                 display: none !important;
             }
-            /* Optionally remove background or shadow for cleaner PDF */
             body {
                 background-color: #fff;
             }
@@ -89,64 +87,48 @@
                 border: none;
             }
         }
+
+        h3 {
+            margin-top: 30px;
+            color: #333;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="report-container">
         <h1>Medical Insurance Prediction Report</h1>
 
-        <div class="info">
-            <span class="label">Name</span>
-            <div class="value">{{ name }}</div>
-        </div>
+        <div class="info"><span class="label">Name</span><div class="value">{{ name }}</div></div>
+        <div class="info"><span class="label">Age</span><div class="value">{{ age }}</div></div>
+        <div class="info"><span class="label">Gender</span><div class="value">{{ sex }}</div></div>
+        <div class="info"><span class="label">BMI</span><div class="value">{{ bmi }}</div></div>
+        <div class="info"><span class="label">Children</span><div class="value">{{ children }}</div></div>
+        <div class="info"><span class="label">Smoker</span><div class="value">{{ smoker }}</div></div>
+        <div class="info"><span class="label">Region</span><div class="value">{{ region }}</div></div>
+        <div class="info"><span class="label">Predicted Cost</span><div class="cost">₹{{ cost }}</div></div>
 
-        <div class="info">
-            <span class="label">Age</span>
-            <div class="value">{{ age }}</div>
-        </div>
+        <h3>AI ने यह खर्च कैसे समझा (How AI interpreted this expense):</h3>
+        <ul>
+            {% for explanation in explanations %}
+            <li>{{ explanation }}</li>
+            {% endfor %}
+        </ul>
 
-        <div class="info">
-            <span class="label">Gender</span>
-            <div class="value">{{ sex }}</div>
-        </div>
-
-        <div class="info">
-            <span class="label">BMI</span>
-            <div class="value">{{ bmi }}</div>
-        </div>
-
-        <div class="info">
-            <span class="label">Children</span>
-            <div class="value">{{ children }}</div>
-        </div>
-
-        <div class="info">
-            <span class="label">Smoker</span>
-            <div class="value">{{ smoker }}</div>
-        </div>
-
-        <div class="info">
-            <span class="label">Region</span>
-            <div class="value">{{ region }}</div>
-        </div>
-
-        <div class="info">
-            <span class="label">Predicted Cost</span>
-            <div class="cost">${{ cost }}</div>
-        </div>
-<div class="info">
-    <span class="label">Health Tips</span>
-    <ul class="value">
-        {% for tip in health_tips %}
+        <h3>आपके लिए स्वास्थ्य सुझाव (Health tips for you):</h3>
+        <ul>
+            {% for tip in health_tips %}
             <li>{{ tip }}</li>
-        {% endfor %}
-    </ul>
-</div>
+            {% endfor %}
+        </ul>
 
-        <!-- Hidden iframe used for PDF download -->
-
-
-        <!-- Button to trigger PDF download and redirect -->
         <button onclick="downloadAndRedirect()">📄 Download PDF Report</button>
     </div>
 
@@ -155,7 +137,6 @@
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '/generate_pdf';
-           
 
             const fields = {
                 name: "{{ name }}",
@@ -179,8 +160,7 @@
             document.body.appendChild(form);
             form.submit();
 
-            // After 3 seconds redirect to the home page
-            setTimeout(function() {
+            setTimeout(() => {
                 window.location.href = "/";
             }, 3000);
         }
