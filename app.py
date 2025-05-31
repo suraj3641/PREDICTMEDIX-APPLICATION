@@ -19,6 +19,7 @@ import io
 import shap
 
 
+
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key')
@@ -327,7 +328,7 @@ def predict():
         if model is None:
             return render_template('index.html', prediction_text="Model not loaded. Contact admin.")
 
-        # Extract form data
+        # 🔹 Extract form data from the user
         form_data = {
             'name': current_user.name,
             'age': int(request.form['age']),
@@ -338,7 +339,7 @@ def predict():
             'region': request.form['region']
         }
 
-        # Prepare model input for prediction
+        # 🔹 Convert form data to model-friendly format
         model_data = {
             'age': form_data['age'],
             'sex': 1 if form_data['sex'] == 'male' else 0,
@@ -348,22 +349,42 @@ def predict():
             'region': {'northwest': 0, 'northeast': 1, 'southeast': 2, 'southwest': 3}[form_data['region']]
         }
 
-        # Create DataFrame and predict
+        # 🔹 Predict current year cost
         df = pd.DataFrame([model_data])
-        prediction = model.predict(df)[0]
-        form_data['cost'] = f"{prediction:,.2f}"
+        current_cost = model.predict(df)[0]
+        form_data['cost'] = f"{current_cost:,.2f}"
 
-        # Explain prediction if model has coefficients (i.e., linear model)
+        # 🔹 Explanation & Health Tips
         try:
             explanations = explain_prediction(model, model_data)
         except Exception as e:
             explanations = [f"AI खर्च का विश्लेषण नहीं कर सका (AI could not analyze the expense): {e}"]
 
         form_data['explanations'] = explanations
-
-        # Generate health tips
         form_data['health_tips'] = generate_health_tips(form_data)
 
+
+        # 🔹 Future prediction check
+        future_predictions = []
+        if request.form.get("future_prediction") == "yes":
+            base_age = model_data['age']
+            base_bmi = model_data['bmi']
+            current_smoker = model_data['smoker']
+            for i in range(1, 6):
+                future_model_data = model_data.copy()
+                future_model_data['age'] = base_age + i
+                future_model_data['bmi'] = base_bmi + (0.5 * i)  # Slight BMI increase yearly
+
+                df_future = pd.DataFrame([future_model_data])
+                future_cost = model.predict(df_future)[0]
+                future_predictions.append({
+                    'year': 2025 + i,
+                    'cost': f"{future_cost:,.2f}"
+                })
+
+        form_data['future_predictions'] = future_predictions
+
+        # 🔹 Return final report page
         return render_template('report.html', **form_data)
 
     except Exception as e:
@@ -371,11 +392,10 @@ def predict():
 
 
 
+
+
 # How AI interpreted this expense
 def explain_prediction(model, input_data):
-    import shap
-    import pandas as pd
-
     try:
         input_df = pd.DataFrame([input_data])
 
@@ -424,16 +444,6 @@ def generate_pdf():
 
     except Exception as e:
         return f"PDF Generation Failed: {str(e)}", 500
-
-
-
-
-
-
-
-
-
-
 
 
 

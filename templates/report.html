@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
     <meta charset="utf-8">
     <title>Medical Cost Report</title>
-    <!-- Unicode-safe font supporting Hindi and English -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Set page size and margins for PDF output */
         @page {
             size: A4;
             margin: 30px;
         }
-
+        
+        /* Base styling for screen */
         body {
-            font-family: 'Noto Sans', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f1f1f1;
             margin: 0;
             padding: 40px;
@@ -75,10 +79,12 @@
             background-color: #0056b3;
         }
 
+        /* Hide interactive elements when printing (PDF conversion) */
         @media print {
             button, iframe {
                 display: none !important;
             }
+            /* Optionally remove background or shadow for cleaner PDF */
             body {
                 background-color: #fff;
             }
@@ -87,48 +93,97 @@
                 border: none;
             }
         }
-
-        h3 {
-            margin-top: 30px;
-            color: #333;
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
     </style>
 </head>
 <body>
     <div class="report-container">
         <h1>Medical Insurance Prediction Report</h1>
 
-        <div class="info"><span class="label">Name</span><div class="value">{{ name }}</div></div>
-        <div class="info"><span class="label">Age</span><div class="value">{{ age }}</div></div>
-        <div class="info"><span class="label">Gender</span><div class="value">{{ sex }}</div></div>
-        <div class="info"><span class="label">BMI</span><div class="value">{{ bmi }}</div></div>
-        <div class="info"><span class="label">Children</span><div class="value">{{ children }}</div></div>
-        <div class="info"><span class="label">Smoker</span><div class="value">{{ smoker }}</div></div>
-        <div class="info"><span class="label">Region</span><div class="value">{{ region }}</div></div>
-        <div class="info"><span class="label">Predicted Cost</span><div class="cost">₹{{ cost }}</div></div>
+        <div class="info">
+            <span class="label">Name</span>
+            <div class="value">{{ name }}</div>
+        </div>
 
-        <h3>AI ने यह खर्च कैसे समझा (How AI interpreted this expense):</h3>
-        <ul>
-            {% for explanation in explanations %}
-            <li>{{ explanation }}</li>
-            {% endfor %}
-        </ul>
+        <div class="info">
+            <span class="label">Age</span>
+            <div class="value">{{ age }}</div>
+        </div>
 
-        <h3>आपके लिए स्वास्थ्य सुझाव (Health tips for you):</h3>
-        <ul>
-            {% for tip in health_tips %}
-            <li>{{ tip }}</li>
-            {% endfor %}
-        </ul>
+        <div class="info">
+            <span class="label">Gender</span>
+            <div class="value">{{ sex }}</div>
+        </div>
 
+        <div class="info">
+            <span class="label">BMI</span>
+            <div class="value">{{ bmi }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Children</span>
+            <div class="value">{{ children }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Smoker</span>
+            <div class="value">{{ smoker }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Region</span>
+            <div class="value">{{ region }}</div>
+        </div>
+
+        <div class="info">
+            <span class="label">Predicted Cost</span>
+            <div class="cost">${{ cost }}</div>
+        </div>
+        
+
+<!--ow AI interpreted this expense-->
+    <h3>यह खर्च AI ने ऐसे समझा(How AI interpreted this expense):</h3>
+    <ul>
+        {% for explanation in explanations %}
+        <li>{{ explanation }}</li>
+        {% endfor %}
+    </ul>
+
+
+ <!--stimated Medical Expenses for the Next 5 Years -->
+{% if future_predictions %}
+  <h3> अगले 5 सालों का अनुमानित मेडिकल खर्चा (stimated Medical Expenses for the Next 5 Years )</h3>
+<p class="text-sm text-gray-700 mt-2">
+    As you grow older and your BMI gradually increases, your potential medical expenses are likely to change.
+    Based on your current age ({{ age }}) and BMI ({{ bmi }}), we have estimated your expected healthcare costs for the next 5 years. <br>
+   (  जैसे-जैसे आपकी उम्र बढ़ती है और बीएमआई में धीरे-धीरे वृद्धि होती है, वैसे-वैसे आपके संभावित चिकित्सा खर्चों में भी बदलाव आने की संभावना होती है।
+    आपकी वर्तमान उम्र ({{ age }}) और बीएमआई ({{ bmi }}) के आधार पर, हमने अगले 5 वर्षों के लिए आपके अनुमानित स्वास्थ्य खर्च का आकलन किया है।)
+</p>
+
+  <table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+      <th>साल (Year)</th>
+      <th>अनुमानित खर्च (Estimated Cost ₹)</th>
+    </tr>
+    {% for pred in future_predictions %}
+      <tr>
+        <td>{{ pred.year }}</td>
+        <td>₹{{ pred.cost }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+
+<!--Health tips for you-->
+    <h3>आपके लिए स्वास्थ्य सुझाव(Health tips for you):</h3>
+    <ul>
+        {% for tip in health_tips %}
+        <li>{{ tip }}</li>
+        {% endfor %}
+    </ul>
+
+        
+        <!-- Button to trigger PDF download and redirect -->
         <button onclick="downloadAndRedirect()">📄 Download PDF Report</button>
     </div>
 
@@ -137,6 +192,7 @@
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '/generate_pdf';
+           
 
             const fields = {
                 name: "{{ name }}",
@@ -160,7 +216,8 @@
             document.body.appendChild(form);
             form.submit();
 
-            setTimeout(() => {
+            // After 3 seconds redirect to the home page
+            setTimeout(function() {
                 window.location.href = "/";
             }, 3000);
         }
